@@ -61,7 +61,7 @@ $(function() {
          */
         let body = document.getElementsByTagName('body')[0];
         it('Menu element is hidden by default', function() {    
-            expect(body.classList.contains('menu-hidden')).toBe(true);
+            expect(body.classList.contains('menu-hidden')).toBe(true); // checks if body element has menu-hidden class
         });
 
         /* TODO: Write a test that ensures the menu changes
@@ -79,11 +79,12 @@ $(function() {
     });
 
         
-
-         
-
+     
     /* TODO: Write a new test suite named "Initial Entries" */
-
+    describe('Initial Entries', function() {
+        beforeEach(function(done) {
+            loadFeed(0, done);
+        });
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
@@ -91,10 +92,34 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
+        it('at least one entry in feed', function(done) {
+            let feed = document.getElementsByClassName('feed')[0];
+            let entryLinks = feed.;
+            expect(entryLinks.length > 0).toBeTruthy();
+            let entry = entryLinks[0].firstElementChild;
+            expect(entry.className).toBe('entry');
+            done();
+        });
+    });
 
+        
+    /* TODO: Write a new test suite named "New Feed Selection" */
+    describe('New Feed Selection', function() {
+        beforeEach(function(done) {
+            loadFeed(0, function() {  // call the load function on the first feed
+                previousTitle = document.querySelector('.header-title').innerHTML; 
+                loadFeed(1, done); //call the load function on the second feed
+            });
+        });
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
-         */
+             */
+        it('changes the content', (done) => {
+            const currentTitle = document.querySelector('.header-title').innerHTML;
+            expect(currentTitle === previousTitle).toBe(false); //compare title of first feed with the title of second feed
+            done();
+        });
+    });
+        
 }());
